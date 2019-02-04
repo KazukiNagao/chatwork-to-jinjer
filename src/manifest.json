@@ -1,0 +1,20 @@
+{
+    "name": "chatwork-to-jinjer",
+    "description": "connect between jinjer and chatwork",
+    "version": "1.0",
+    "manifest_version": 2,
+    "permissions": ["tabs", "http://*/", "https://*/", "storage", "notifications", "alarms"],
+    "browser_action": {
+        "default_popup": "index.html",
+        "default_icon": "icon.png"
+    },
+    "background": {
+        "scripts": ["background.js"]
+    },
+    "content_scripts": [{
+        "matches": [
+            "https://www.chatwork.com/*"
+        ],
+        "js": ["content.js"]
+    }]
+}

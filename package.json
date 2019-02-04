@@ -1,0 +1,20 @@
+{
+  "name": "chatwork-to-jinjer",
+  "version": "1.0.0",
+  "description": "connect jinjer and chatwork by chrome extension",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "copy": "cp src/manifest.json dist/ && cp src/*.png dist/ && cp src/*.html dist/",
+    "build-scss": "node-sass src/style.scss dist/style.css --output-style compressed",
+    "watch-scss": "node-sass src/style.scss dist/style.css --output-style compressed -w",
+    "build": "tsc && npm run copy && npm run build-scss",
+    "watch": "tsc -w"
+  },
+  "author": "knagao",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chrome": "0.0.78",
+    "node-sass": "^4.11.0"
+  }
+}
