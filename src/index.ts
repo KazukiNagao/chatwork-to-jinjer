@@ -26,6 +26,7 @@ start_btn.addEventListener('click', () => {
     chrome.storage.local.get(['cwid', 'cwroomid'], (v) => {
         let c = new Chatwork(v.cwid, v.cwroomid);
         c.sendMessage('body=#出勤');
+        window.alert('今日も1日がんばりましょう！');
     })    
 });
 
@@ -35,6 +36,7 @@ end_btn.addEventListener('click', () => {
     chrome.storage.local.get(['cwid', 'cwroomid'], (v) => {
         let c = new Chatwork(v.cwid, v.cwroomid);
         c.sendMessage('body=#退勤');
+        window.alert('今日も1日お疲れ様でした！');
     })
 });
 
@@ -43,8 +45,10 @@ let save_btn: HTMLButtonElement = <HTMLButtonElement>document.getElementById('ct
 save_btn.addEventListener('click', () => {
     let input_text: HTMLInputElement = <HTMLInputElement>document.getElementById('ctoj-form-chatwork-id');
     let input_text_room: HTMLInputElement = <HTMLInputElement>document.getElementById('ctoj-form-room-id');
+    let input_time: HTMLInputElement = <HTMLInputElement>document.getElementById('ctoj-form-morning-alarm');
     chrome.storage.local.set({ 'cwid': input_text.value });
     chrome.storage.local.set({ 'cwroomid': input_text_room.value });
+    chrome.storage.local.set({ 'ctoj-morning-alarm': input_time.value});
 });
 
 // 設定

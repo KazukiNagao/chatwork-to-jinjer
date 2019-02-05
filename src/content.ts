@@ -40,7 +40,3 @@ function main() {
     end_li.appendChild(end_btn);
     bar_list.appendChild(end_btn);
 }
-
-window.onload = () => {
-    main();
-}

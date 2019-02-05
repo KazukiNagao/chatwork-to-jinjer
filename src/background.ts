@@ -1,5 +1,3 @@
-console.log("back");
-
 function create_notification() {
     let options = {
         type: 'basic',
