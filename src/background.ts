@@ -9,7 +9,7 @@ function create_notification() {
     chrome.notifications.create('', options);
 }
 
-chrome.alarms.create({periodInMinutes: 10})
+chrome.alarms.create({periodInMinutes: 1})
 chrome.alarms.onAlarm.addListener(() => {
     let now = new Date();
     if (now.getHours() == 8 && now.getMinutes() == 50) {
