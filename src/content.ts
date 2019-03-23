@@ -1,42 +1,43 @@
-function main() {
-    let bar_div = document.getElementById('_chatSendToolbar');
-    if (!bar_div) {
-        return;
+chrome.runtime.onMessage.addListener((msg: object) => {
+    if (msg['key'] == "gotowork") {
+        putMessage("#出勤", "今日も1日がんばりましょう！");
+    } else if (msg['key'] == 'outwork') {
+        putMessage("#退勤", "お疲れ様でした！");
     }
-    let bar_list = bar_div.querySelector("ul");
-    if (!bar_list) {
-        return;
-    }
+});
 
-    let chat_area: HTMLTextAreaElement = <HTMLTextAreaElement>document.getElementById('_chatText');
-    if (!chat_area) {
-        return;
-    }
-
-    let submit_btn: HTMLDivElement = <HTMLDivElement>document.getElementById('_sendButton');
-    if (!submit_btn) {
-        return;
-    }
-    
-    let start_btn = document.createElement('button');
-    start_btn.textContent = "出勤";
-    start_btn.classList.add('jinjer-start-btn');
-    start_btn.addEventListener('click', () => {
-        chat_area!.value = "#出勤";
-        submit_btn!.click();
+async function putMessage(message: string, alertMessage: string) {
+    let roomList = <HTMLCollection>document.getElementsByClassName('roomListItem');
+    await getRoom(roomList).then((room: HTMLElement) => {
+        room.click();
+        let chat_area: HTMLTextAreaElement = <HTMLTextAreaElement>document.getElementById('_chatText');
+        if (!chat_area) {
+            return;
+        }
+        chat_area!.value = message;
+        let submit_btn: HTMLDivElement = <HTMLDivElement>document.getElementById('_sendButton');
+        submit_btn.click();
+        window.alert(alertMessage);
     });
-    let start_li = document.createElement('li');
-    start_li.appendChild(start_btn);
-    bar_list.appendChild(start_li);
+}
 
-    let end_btn = document.createElement('button');
-    end_btn.textContent = "退勤";
-    end_btn.classList.add('jinjer-end-btn');
-    end_btn.addEventListener('click', () => {
-        chat_area!.value = "#退勤";
-        submit_btn!.click();
+function awaitForClick(room: HTMLElement): Promise<string> {
+    return new Promise((resolve) => {
+        room.click();
+        return resolve();
     });
-    let end_li = document.createElement('li');
-    end_li.appendChild(end_btn);
-    bar_list.appendChild(end_btn);
+}
+
+function getRoom(roomList: HTMLCollection): Promise<Element> {
+    return new Promise((resolve) => {
+            chrome.storage.local.get(['cwroomid'], (v) => {
+            for (var i = 0; i < roomList.length; i++) {
+                let room = roomList.item(i);
+                let roomID = room.getAttribute('data-rid');
+                if (roomID == v.cwroomid) {
+                    return resolve(room);
+                }
+            }
+        })
+    });
 }
