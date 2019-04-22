@@ -1,7 +1,7 @@
 {
     "name": "chatwork-to-jinjer",
     "description": "connect between jinjer and chatwork",
-    "version": "1.0",
+    "version": "1.2",
     "manifest_version": 2,
     "permissions": ["tabs", "http://*/", "https://*/", "storage", "notifications", "alarms"],
     "browser_action": {

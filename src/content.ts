@@ -4,18 +4,35 @@ chrome.runtime.onMessage.addListener((msg: object) => {
     } else if (msg['key'] == 'outwork') {
         putMessage("#退勤", "お疲れ様でした！");
     }
+    return true;
 });
 
 async function putMessage(message: string, alertMessage: string) {
-    let roomList = <HTMLCollection>document.getElementsByClassName('roomListItem');
-    await getRoom(roomList).then((room: HTMLElement) => {
+    const roomListDiv = <HTMLDivElement>document.getElementById('_roomListArea');
+    const roomList = <HTMLCollection>roomListDiv.getElementsByTagName('roomlist');
+    const roomListULlist = <HTMLCollection>roomList[0].getElementsByTagName('li');
+    await getRoom(roomListULlist).then((room: HTMLElement) => {
         room.click();
-        let chat_area: HTMLTextAreaElement = <HTMLTextAreaElement>document.getElementById('_chatText');
+        let chat_area: HTMLTextAreaElement = <HTMLTextAreaElement>(
+            document.getElementById("_chatText")
+        );
         if (!chat_area) {
+            return true;
+        }
+        let chat_area_title: HTMLCollection = <HTMLCollection>(
+            document.getElementsByClassName("_roomTitleText")
+        );
+
+        let roomLabel = room.getAttribute('aria-label');
+        if (chat_area_title[0].textContent != roomLabel) {
+            window.alert('うまく打刻できなかったから、もう一回ボタン押してください。')
             return;
         }
+
         chat_area!.value = message;
-        let submit_btn: HTMLDivElement = <HTMLDivElement>document.getElementById('_sendButton');
+        let submit_btn: HTMLDivElement = <HTMLDivElement>(
+            document.getElementById("_sendButton")
+        );
         submit_btn.click();
         window.alert(alertMessage);
     });

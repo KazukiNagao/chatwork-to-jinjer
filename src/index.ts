@@ -24,6 +24,7 @@ class Chatwork {
 let start_btn: HTMLButtonElement = <HTMLButtonElement>document.getElementById('ctoj-start-btn');
 start_btn.addEventListener('click', () => {
     chrome.tabs.query({ title: '*Chatwork*' }, (tabs) => {
+        console.log(tabs);
         chrome.tabs.sendMessage(tabs[0].id, {key: "gotowork"});
     });
 });
@@ -31,6 +32,7 @@ start_btn.addEventListener('click', () => {
 // 退勤
 let end_btn: HTMLButtonElement = <HTMLButtonElement>document.getElementById('ctoj-end-btn');
 end_btn.addEventListener('click', () => {
+    console.log("end------------------");
     chrome.tabs.query({ title: '*Chatwork*' }, (tabs) => {
         chrome.tabs.sendMessage(tabs[0].id, { key: "outwork" });
     });
