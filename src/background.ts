@@ -17,10 +17,6 @@ chrome.alarms.onAlarm.addListener(() => {
             create_notification();
         }        
     });
-
-    if (now.getHours() == 8 && now.getMinutes() == 50) {
-        create_notification();
-    }
 });
 
 function getAlarm(now: Date): Promise<Date> {
