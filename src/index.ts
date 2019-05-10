@@ -24,7 +24,6 @@ class Chatwork {
 let start_btn: HTMLButtonElement = <HTMLButtonElement>document.getElementById('ctoj-start-btn');
 start_btn.addEventListener('click', () => {
     chrome.tabs.query({ title: '*Chatwork*' }, (tabs) => {
-        console.log(tabs);
         chrome.tabs.sendMessage(tabs[0].id, {key: "gotowork"});
     });
 });
@@ -32,7 +31,6 @@ start_btn.addEventListener('click', () => {
 // 退勤
 let end_btn: HTMLButtonElement = <HTMLButtonElement>document.getElementById('ctoj-end-btn');
 end_btn.addEventListener('click', () => {
-    console.log("end------------------");
     chrome.tabs.query({ title: '*Chatwork*' }, (tabs) => {
         chrome.tabs.sendMessage(tabs[0].id, { key: "outwork" });
     });
@@ -44,7 +42,7 @@ save_btn.addEventListener('click', () => {
     let input_text_room: HTMLInputElement = <HTMLInputElement>document.getElementById('ctoj-form-room-id');
     let input_time: HTMLInputElement = <HTMLInputElement>document.getElementById('ctoj-form-morning-alarm');
     chrome.storage.local.set({ 'cwroomid': input_text_room.value });
-    chrome.storage.local.set({ 'ctoj-morning-alarm': input_time.value});
+    chrome.storage.local.set({ 'ctoj_morning_alarm': input_time.value});
 });
 
 // 設定
@@ -55,7 +53,7 @@ setting_btn.addEventListener('click', () => {
 })
 
 // 初期化
-chrome.storage.local.get(['cwroomid'], (v) => {
+chrome.storage.local.get(['cwroomid', 'ctoj_morning_alarm'], (v) => {
     if (!v.cwroomid) {
         return;
     }
@@ -63,4 +61,6 @@ chrome.storage.local.get(['cwroomid'], (v) => {
     input_box.style.display = "none";
     let input_text_room: HTMLInputElement = <HTMLInputElement>document.getElementById('ctoj-form-room-id');
     input_text_room.value = v.cwroomid
+    let input_time: HTMLInputElement = <HTMLInputElement>document.getElementById('ctoj-form-morning-alarm');
+    input_time.value = v.ctoj_morning_alarm + ':00'
 });

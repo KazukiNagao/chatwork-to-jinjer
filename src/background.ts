@@ -12,7 +12,22 @@ function create_notification() {
 chrome.alarms.create({periodInMinutes: 1})
 chrome.alarms.onAlarm.addListener(() => {
     let now = new Date();
+    getAlarm(now).then(d => {
+        if (now.getHours() == d.getHours() && now.getMinutes() == d.getMinutes()) {
+            create_notification();
+        }        
+    });
+
     if (now.getHours() == 8 && now.getMinutes() == 50) {
         create_notification();
     }
 });
+
+function getAlarm(now: Date): Promise<Date> {
+    return new Promise((resolve) => {
+        chrome.storage.local.get(['ctoj_morning_alarm'], (v) => {
+            const times = v.ctoj_morning_alarm.split(':')
+            return resolve(new Date(now.getFullYear(), now.getMonth(), now.getDate(), parseInt(times[0]), parseInt(times[1])));
+        });
+    });
+}
